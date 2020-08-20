@@ -38,6 +38,14 @@ class CalcController {
     }
 
     set displayCalc(value) {
+
+        if(value.toString().length > 10){
+            this.setError();
+            // Por limitações do display, não é permitidos valores acime de dez digitos
+            console.log('Due to display limitations, values above ten digits are not allowed');
+            return false;
+        }
+
         this._displayCalcEl.innerHTML = value;
     }
 
@@ -182,8 +190,10 @@ class CalcController {
     getResult() {            
 
         try {
+
             return eval(this._operation.join(""));
-        } catch (e) {
+        } catch (e) {            
+            
             setTimeout(()=> this.setError(), 1);
         }
     }
@@ -272,8 +282,7 @@ class CalcController {
         }       
     }
     addDot() {
-        let lastOperation = this.getLastOperation();
-        console.log(lastOperation);
+        let lastOperation = this.getLastOperation();        
 
         if (typeof lastOperation === 'string' && lastOperation.split('').indexOf('.') > -1) return;
 
